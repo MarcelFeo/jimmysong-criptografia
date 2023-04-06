@@ -2,8 +2,8 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 23,
-   "id": "3a46b744",
+   "execution_count": 45,
+   "id": "78dd631a",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -39,27 +39,40 @@
     "    # Exercício 3\n",
     "    def __sub__(self, other):\n",
     "        if self.prime != other.prime:\n",
-    "            raise TypeError('Cannot add two numbers in different Fields')\n",
+    "            raise TypeError('Cannot sub two numbers in different Fields')\n",
     "        num = (self.num - other.num) % self.prime\n",
+    "        return self.__class__(num, self.prime)\n",
+    "    # Exercício 4\n",
+    "    def __mul__(self, other):\n",
+    "        if self.prime != other.prime:\n",
+    "            raise TypeError('Cannot mul two numbers in different Fields')            \n",
+    "        num = (self.num * other.num) % self.prime\n",
+    "        return self.__class__(num, self.prime)\n",
+    "    # Exercício 5\n",
+    "    def __pow__(self, exponent):           \n",
+    "        num = (self.num ** exponent) % self.prime\n",
     "        return self.__class__(num, self.prime)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
-   "id": "c61a3376",
+   "execution_count": 52,
+   "id": "b8966eaf",
    "metadata": {},
    "outputs": [],
    "source": [
     "a = FieldElement(3, 10)\n",
     "b = FieldElement(6, 10)\n",
-    "c = FieldElement(9, 10)"
+    "c = FieldElement(9, 10)\n",
+    "d = FieldElement(1, 10)\n",
+    "e = FieldElement(4, 10)\n",
+    "f = FieldElement(2, 10)"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 18,
-   "id": "cc3eba76",
+   "id": "5676ebb7",
    "metadata": {},
    "outputs": [
     {
@@ -77,7 +90,7 @@
   {
    "cell_type": "code",
    "execution_count": 19,
-   "id": "bf035386",
+   "id": "54ce0a88",
    "metadata": {},
    "outputs": [
     {
@@ -95,7 +108,7 @@
   {
    "cell_type": "code",
    "execution_count": 10,
-   "id": "568fb56f",
+   "id": "4a26515a",
    "metadata": {},
    "outputs": [
     {
@@ -113,7 +126,7 @@
   {
    "cell_type": "code",
    "execution_count": 25,
-   "id": "27de6226",
+   "id": "54515d9e",
    "metadata": {},
    "outputs": [
     {
@@ -131,8 +144,98 @@
   },
   {
    "cell_type": "code",
+   "execution_count": 26,
+   "id": "8d82b6c4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FieldElement_10(9)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(a+b)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "eaa2f1d4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FieldElement_10(3)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(a*d)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "b87e0b72",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(a*d==a)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "2f193a14",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(a**2==c)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "072f10a5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FieldElement_10(8)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f**3)"
+   ]
+  },
+  {
+   "cell_type": "code",
    "execution_count": null,
-   "id": "d2e7ec90",
+   "id": "ff199fe2",
    "metadata": {},
    "outputs": [],
    "source": []
@@ -140,7 +243,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "fb076f85",
+   "id": "01f8dba0",
    "metadata": {},
    "outputs": [],
    "source": []
