@@ -1,7 +1,7 @@
 ### Exercícios do capítulo 1
 
 - [ ]  ecc
-- [ ]  Exercise 1
-- [ ]  Exercise 2
-- [ ]  Exercise 3
+- [x]  Exercise 1
+- [x]  Exercise 2
+- [x]  Exercise 3
 
