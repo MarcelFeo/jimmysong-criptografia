@@ -1,0 +1,198 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "890385ae",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Point:\n",
+    "     def __init__(self, x, y, a, b):\n",
+    "         self.a = a\n",
+    "         self.b = b\n",
+    "         self.x = x\n",
+    "         self.y = y\n",
+    "         if self.x is None and self.y is None:\n",
+    "             return\n",
+    "         if self.y**2 != self.x**3 + a * x + b:\n",
+    "             raise ValueError('({}, {}) is not on the curve'.format(x, y))\n",
+    " \n",
+    "     def __eq__(self, other):\n",
+    "         return self.x == other.x and self.y == other.y and self.a == other.a and self.b == other.b\n",
+    "        \n",
+    "     def __ne__(self, other):\n",
+    "         return not (self == other)\n",
+    "        \n",
+    "     def __add__(self, other):\n",
+    "         if self.a != other.a or self.b != other.b:\n",
+    "             raise TypeError('Points {}, {} are not on the same curve'.format(self, other))\n",
+    "            \n",
+    "         if self == other and self.y == 0 * self.x:\n",
+    "             return self.__class__(None, None, self.a, self.b)\n",
+    "\n",
+    "            \n",
+    "         if self.x is None:\n",
+    "             return other\n",
+    "         if other.x is None:\n",
+    "             return self\n",
+    "            \n",
+    "         if self.x != other.x:\n",
+    "             s = (other.y - self.y) / (other.x - self.x)\n",
+    "             x = s**2 - self.x - other.x\n",
+    "             y = s * (self.x - x) - self.y\n",
+    "             return self.__class__(x, y, self.a, self.b)\n",
+    "        \n",
+    "         if self == other:\n",
+    "             s = (3 * self.x**2 + self.a) / (2 * self.y)\n",
+    "             x = s**2 - 2 * self.x\n",
+    "             y = s * (self.x - x) - self.y\n",
+    "             return self.__class__(x, y, self.a, self.b)\n",
+    "            \n",
+    "     def __addi__(self, other):\n",
+    "        if self.x == other.x and self.y != other.y:\n",
+    "            return self.__class__(None, None, self.a, self.b)\n",
+    "        \n",
+    "        "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "0efc3f57",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def on_curve(x, y):\n",
+    "    return y**2 == x**3 + 5*x + 7"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "e3ab161e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "False\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(on_curve(2, 3))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "49aa22ba",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "True\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(on_curve(2, 5))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "9210831d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "3.0 -7.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "x1, y1 = 2, 5\n",
+    "x2, y2 = -1, -1\n",
+    "s = (y2 - y1) / (x2 - x1)\n",
+    "x3 = s**2 - x1 - x2\n",
+    "y3 = s * (x1 - x3) - y1\n",
+    "print(x3, y3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "2e887121",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "ValueError",
+     "evalue": "(-1, 1) is not on the curve",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mValueError\u001b[0m                                Traceback (most recent call last)",
+      "Cell \u001b[1;32mIn[20], line 1\u001b[0m\n\u001b[1;32m----> 1\u001b[0m a \u001b[38;5;241m=\u001b[39m \u001b[43mPoint\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;241;43m-\u001b[39;49m\u001b[38;5;241;43m1\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;241;43m1\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;241;43m0\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;241;43m0\u001b[39;49m\u001b[43m)\u001b[49m\n",
+      "Cell \u001b[1;32mIn[13], line 10\u001b[0m, in \u001b[0;36mPoint.__init__\u001b[1;34m(self, x, y, a, b)\u001b[0m\n\u001b[0;32m      8\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m\n\u001b[0;32m      9\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39my\u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39m\u001b[38;5;241m2\u001b[39m \u001b[38;5;241m!=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mx\u001b[38;5;241m*\u001b[39m\u001b[38;5;241m*\u001b[39m\u001b[38;5;241m3\u001b[39m \u001b[38;5;241m+\u001b[39m a \u001b[38;5;241m*\u001b[39m x \u001b[38;5;241m+\u001b[39m b:\n\u001b[1;32m---> 10\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124m(\u001b[39m\u001b[38;5;132;01m{}\u001b[39;00m\u001b[38;5;124m, \u001b[39m\u001b[38;5;132;01m{}\u001b[39;00m\u001b[38;5;124m) is not on the curve\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;241m.\u001b[39mformat(x, y))\n",
+      "\u001b[1;31mValueError\u001b[0m: (-1, 1) is not on the curve"
+     ]
+    }
+   ],
+   "source": [
+    "a = Point(-1, 1, 0, 0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ce3610b1",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d3f19baf",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6e554d98",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
