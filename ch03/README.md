@@ -4,5 +4,6 @@
 - [X] Exercício 2
 - [X] Exercício 3
 - [X] Exercício 4
-- [ ] Exercício 5
+- [x] Exercício 5
+- [x] Exercício 6
 
